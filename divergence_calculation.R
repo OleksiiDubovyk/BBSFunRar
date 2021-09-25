@@ -39,24 +39,24 @@ distinct <- function(x, cen, numind, catind, catmxs, grind){
   #
   #numeric variables
   numvals <- matrix(NA, nrow = nrow(x), ncol = length(numind))
-  colnames(numvals) <- colnames(x)[numind]
+  colnames(numvals) <- numind
   rownames(numvals) <- rownames(x)
-  for (trait in colnames(x)[numind]){
+  for (trait in numind){
     numvals[,trait] <- sapply(x[,trait], function(taxa_value){
       abs(taxa_value - unlist(cen[trait]))
     })
   }
   #categorical variables
   catvals <- matrix(NA, nrow = nrow(x), ncol = length(catind))
-  colnames(catvals) <- colnames(x)[catind]
+  colnames(catvals) <- catind
   rownames(catvals) <- rownames(x)
-  for (trait in colnames(x)[catind]){
+  for (trait in catind){
     mx <- catmxs[trait][[1]]
     sp <- 1
     for (taxa_value in x[,trait]){
       catvals[sp, trait] <- cat_dist(value = taxa_value, 
                                      mx = mx, 
-                                     freqs = cen[taxa][[1]])
+                                     freqs = cen[trait][[1]])
       sp <- sp+1
     }
   }
@@ -65,16 +65,21 @@ distinct <- function(x, cen, numind, catind, catmxs, grind){
   rownames(grvals) <- rownames(x)
   colnames(grvals) <- names(grind)
   for (trait in names(grind)){
-    traits <- grid[trait][[1]]
-    sp <- 1
-    for (taxa_value in rownames(x)){
-      grvals[taxa_value, trait] <- group_overlap(vec = x[taxa_value, traits], 
-                                                 cen = unlist(cen[traits]))
+    traits <- grind[trait][[1]]
+    for (taxa in rownames(x)){
+      grvals[taxa, trait] <- group_overlap(vec = unlist(x[taxa, traits]), 
+                                         cen = unlist(cen[traits]))
     }
   }
-  grdist <- apply(grvals, 1, function(o){
-    1 - (o/max(o))
-  })
+  
+  grdist <- matrix(NA, nrow = nrow(x), ncol = length(grind))
+  rownames(grdist) <- rownames(x)
+  colnames(grdist) <- names(grind)
+  mo <- NA
+  for (trait in names(grind)){
+    mo <- max(grvals[,trait])
+    grdist[,trait] <- 1-(grvals[,trait]/mo)
+  }
   list(numvals, catvals, grdist)
 }
 
@@ -90,20 +95,26 @@ test_df <- data.frame(n1 = c(2,4,5,6,3),
                       g3 = c(0.5,0.8,0.0,0.5,0.0))
 rownames(test_df) <- c("A", "B", "C", "D", "E")
 
+sapply(test_df[,"n1"], function(taxa_value){
+  abs(taxa_value - unlist(test_cn["n1"]))
+})
+
 test_mx <- list(c1 = matrix(c(0.0, 0.2, 0.8,
                               0.2, 0.0, 0.4,
                               0.8, 0.4, 0.0),
                             ncol = 3, nrow = 3, byrow = T))
+colnames(test_mx[[1]]) <- c("red", "green", "blue")
+rownames(test_mx[[1]]) <- c("red", "green", "blue")
 
 test_cn <- centroid(test_df)
 
 test_grind <- list(g = c("g1", "g2", "g3"))
 
-distinct(x = test_df, 
+system.time(distinct(x = test_df, 
          cen = test_cn, 
          numind = c("n1", "n2", "n3"), 
          catind = "c1",
          catmxs = test_mx,
-         grind = test_grind)
+         grind = test_grind))
 
 ### test ends
