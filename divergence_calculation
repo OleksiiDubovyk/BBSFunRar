@@ -1,3 +1,4 @@
+*.R
 centroid <- function(x){
   l <- vector(mode = "list", length = ncol(x))
   for (j in 1:ncol(x)){
