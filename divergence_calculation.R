@@ -29,7 +29,7 @@ group_overlap <- function(vec, cen){
   sum(overlap)
 }
 
-dist <- function(x, cen, numind, catind, catmxs, grind){
+distinct <- function(x, cen, numind, catind, catmxs, grind){
   #x : dataframe with cols-traits and rows-species
   #cen : list with names-traits and values {mean for numeric, vector of freqs for categorical}
   #numind : vector of numeric variables indices or names
@@ -77,3 +77,33 @@ dist <- function(x, cen, numind, catind, catmxs, grind){
   })
   list(numvals, catvals, grdist)
 }
+
+
+### test
+
+test_df <- data.frame(n1 = c(2,4,5,6,3),
+                      n2 = c(1,1.5,2,0.5,0),
+                      n3 = c(3,4,1,2,5),
+                      c1 = as.factor(c("red", "green", "blue", "red", "red")),
+                      g1 = c(0.3,0.1,0.4,0.5,1.0),
+                      g2 = c(0.2,0.1,0.6,0.0,0.0),
+                      g3 = c(0.5,0.8,0.0,0.5,0.0))
+rownames(test_df) <- c("A", "B", "C", "D", "E")
+
+test_mx <- list(c1 = matrix(c(0.0, 0.2, 0.8,
+                              0.2, 0.0, 0.4,
+                              0.8, 0.4, 0.0),
+                            ncol = 3, nrow = 3, byrow = T))
+
+test_cn <- centroid(test_df)
+
+test_grind <- list(g = c("g1", "g2", "g3"))
+
+distinct(x = test_df, 
+         cen = test_cn, 
+         numind = c("n1", "n2", "n3"), 
+         catind = "c1",
+         catmxs = test_mx,
+         grind = test_grind)
+
+### test ends
