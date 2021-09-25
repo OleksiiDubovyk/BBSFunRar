@@ -64,5 +64,16 @@ dist <- function(x, cen, numind, catind, catmxs, grind){
   grvals <- matrix(NA, nrow = nrow(x), ncol = length(grind))
   rownames(grvals) <- rownames(x)
   colnames(grvals) <- names(grind)
-  #working on that
+  for (trait in names(grind)){
+    traits <- grid[trait][[1]]
+    sp <- 1
+    for (taxa_value in rownames(x)){
+      grvals[taxa_value, trait] <- group_overlap(vec = x[taxa_value, traits], 
+                                                 cen = unlist(cen[traits]))
+    }
+  }
+  grdist <- apply(grvals, 1, function(o){
+    1 - (o/max(o))
+  })
+  list(numvals, catvals, grdist)
 }
