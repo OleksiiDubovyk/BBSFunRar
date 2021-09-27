@@ -15,8 +15,9 @@ cat_dist <- function(value, mx, freqs){
   distances <- mx[, which(colnames(mx) == value)] # distances between the value and all other possible values
   ws <- matrix(NA, ncol = 2, nrow = length(freqs))
   colnames(ws) <- c("distance", "weight")
-  rownames(ws) <- colnames(mx)
-  for (cat in colnames(mx)){
+  #rownames(ws) <- colnames(mx)
+  rownames(ws) <- names(freqs)
+  for (cat in rownames(ws)){
     ws[cat,] <- c(distances[cat], ifelse(cat == value, 0, freqs[cat]))
   } # two arranged vectors of distances and weights of the categories (self-similarity means 0 distinctiveness)
   sum(ws[,1]*ws[,2]) / max(ws[,1]) # normalized by the maximum possible distinctiveness
@@ -46,6 +47,16 @@ distinct <- function(x, cen, numind, catind, catmxs, grind){
       abs(taxa_value - unlist(cen[trait]))
     })
   }
+  numvals <- apply(numvals, 2, function(v){
+    mv <- max(v)
+    if (mv > 0){
+      v/mv
+    }else{
+      rep(0, length(v))
+    }
+  })
+  rownames(numvals) <- rownames(x)
+  
   #categorical variables
   catvals <- matrix(NA, nrow = nrow(x), ncol = length(catind))
   colnames(catvals) <- catind
