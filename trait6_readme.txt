@@ -1,8 +1,10 @@
 trait6.csv - Functional traits database for North American birds
 Oleksii Dubovyk
-20 Sep 2021
+Department of Biological Sciences, Old Dominion University, Norfolk, VA, USA
+oadubovyk@gmail.com
+v1 - 20 Sep 2021
 
-This variables in this dataset are coded as:
+The columns in the dataset are coded as following:
 
 1 name [character] : scientific name of taxa {1}
 
@@ -12,11 +14,11 @@ This variables in this dataset are coded as:
 
 4 hbw_id [integer] : ID connector to HBW/BirdLife taxonomic list {2}
 
-5 ebd_id [integer] : ID connector of species to eBird taxonomy {3}
+5 ebd_id [integer] : ID connector of species to eBird taxonomy (v2019) {3}
 
-6 ebd_sub [regular sequence, i.e., a:b = (a, a+1, a+2, ..., b-2, b-1, b)] : ID connector of subspecies to eBird taxonomy {3}
+6 ebd_sub [regular sequence, i.e., a:b = (a, a+1, a+2, ..., b-2, b-1, b)] : ID connector of subspecies to eBird taxonomy (v2019) {3}
 
-7 ebd_mix [vector, i.e., a;b;c = (a, b, c)] : ID connector of slash/hybrid taxa to eBird taxonomy {3}
+7 ebd_mix [vector, i.e., a;b;c = (a, b, c)] : ID connector of slash/hybrid taxa to eBird taxonomy (v2019) {3}
 
 8 bbs_id [integer] : ID connector of subspecies to BBS species list {4}
 
@@ -24,7 +26,7 @@ This variables in this dataset are coded as:
 
 10 aou_mix [vector, i.e., a;b;c = (a, b, c)] : ID connector of slash/hybrid/genus taxa to AOU taxonomy
 
-11 hwi [numeric] : Hand-wing index {5}
+11 hwi [numeric] : hand-wing index {5}, 100×(DK/LW) where LW is the wing length (between the carpal joint and the tip of the longest primary feather) and DK is Kipp’s distance (difference between LW and secondary length [i.e., from the carpal joint to the tip of the first secondary feather])
 
 12 order [character] : taxonomic order {1}
 
@@ -34,44 +36,44 @@ This variables in this dataset are coded as:
 
 15 synonyms [character, may be divided by ";"] : scientific synonyms {2, 3}
 
-16 mlife [numeric] : maximum observed lifespan {6}
+16 mlife [numeric] : maximum observed lifespan, years {6}
 
-17 mis_mlife [binary] : is mlife data missing?
+17 mis_mlife [binary] : is mlife data missing? (if "1", the mean of the sister taxa provided)
 
 18 adsurvival [numeric, (0, 1)] : annual adult survival probability {6}
 
-19 mis_adsrviv [binary] : is adsurvival data missing?
+19 mis_adsrviv [binary] : is adsurvival data missing? (if "1", the mean of the sister taxa provided)
 
-20 matage [numeric] : average age of the first breeding {6}
+20 matage [numeric] : mean age of the first breeding {6}
 
 21 parasi [numeric, (0, 1)] : nest parasitism (both intra- and interspecific) {7, 6}
 
-22 egglow [integer] : minimum number of eggs laid {7, 6}
+22 egglow [integer] : minimum clutch size {7, 6}
 
-23 eggupp [integer] : maximum number of eggs laid {7, 6}
+23 eggupp [integer] : maximum clutch size {7, 6}
 
-24 nsuc [numeric, (0, 1)] : average nest success (proportion of breeding attempts that yield at least one fledgling) {6}
+24 nsuc [numeric, (0, 1)] : mean nest success (proportion of breeding attempts that yield at least one fledgling) {6}
 
 25 hatc [numeric, (0, 1)] : hatching probability (per one egg) {6}
 
 26 fled [numeric, (0, 1)] : fledging probability (per one hatchling) {6}
 
-27 ypp [numeric] : average number of fledgling per nesting attempt {6}
+27 ypp [numeric] : mean number of fledgling per nesting attempt {6}
 
-28 suces [numeric, (0, 1)] : nesting success (i.e., probability that an egg laid in a nest will yield a fledgling)
+28 suces [numeric, (0, 1)] : overall nesting success (i.e., probability that an egg laid in a nest will yield a fledgling)
 
-29 mis_suces [binary] : is it possible to estimate suces based on the data available?
+29 mis_suces [binary] : is it possible to estimate suces based on the data available? (if "1", the mean of the sister taxa provided)
 
-30 attem [numeric] : average number of successful nesting attempts a year {6, 7}
+30 attem [numeric] : mean number of successful nesting attempts a year {6, 7}
 
 31 dev [factor] : development at hatching {7, 6}:
-	pre2 : precocial 2 - mobile, downy, follow parents, find food
-	pre3 : precocial 3 - mobile, downy, follow parents, are shown food by parents
-	pre4 : precocial 4 - mobile, downy, follow parents, being fed
-	semipre : semiprecocial - mobile, remain at rest, being fed
-	semialt1 : semialtricial 1 - immobile, downy, eyes open, being fed
-	semialt2 : semialtricial 2 - immobile, downy, eyes closed, being fed
-	alt : altricial - immobile, downless, eyes closed, being fed
+	pre2 : precocial 2 - mobile, downy, follow parents, find food,
+	pre3 : precocial 3 - mobile, downy, follow parents, are shown food by parents,
+	pre4 : precocial 4 - mobile, downy, follow parents, being fed,
+	semipre : semiprecocial - mobile, remain at rest, being fed,
+	semialt1 : semialtricial 1 - immobile, downy, eyes open, being fed,
+	semialt2 : semialtricial 2 - immobile, downy, eyes closed, being fed,
+	alt : altricial - immobile, downless, eyes closed, being fed.
 	Suggested distance matrix:
 		pre2	pre3	pre4	semipre	semial1	semial2	alt
 	pre2	0	0.1	0.15	0.3	0.5	0.6	0.9
@@ -82,17 +84,37 @@ This variables in this dataset are coded as:
 	semialt2					0	1
 	alt							0
 
-32 bmass [numeric] : average biomass, g {7, 6}
+32 bmass [numeric] : mean biomass, g {7, 6}
 
 33 naggr [factor] : nesting aggregation (applies to breeding season only) {6}:
-	1 : solitary
-	2 : may stay in family groups or loose colonies
-	3 : strongly colonial
+	(1) solitary,
+	(2) may stay in family groups or loose colonies,
+	(3) strongly colonial.
+	Suggested distance matrix:
+		1	2	3
+	1	0	0.5	1
+	2		0	0.5
+	3			0
 
 34 brsys [factor] : breeding system {6, 7}:
-	##########
+	coop : cooperative, two or more females simultaneously breed in the same nest with or without non-breeding helper,
+	polygam : polygynandry, two or more males mate with two or more females exclusively,
+	promisc : promiscuity, males and females mate indiscriminately,
+	lek : lekking, females survey the males’ competitive displays,
+	polyandr : polyandry, one female mates with more than one male,
+	polygyn : polygyny, one male mates with more than one female,
+	monog : monogamy, one male mates with one female.
+	Suggested distance matrix:
+		coop	polygam	promisc	lek	polyand	polygyn	monog
+	coop	0	0.25	0.4	0.6	0.8	0.8	0.7
+	polygam		0	0.3	0.3	0.5	0.5	0.9
+	promisc			0	0.25	0.4	0.4	1
+	lek				0	0.5	0.5	0.9
+	polyand					0	0.25	0.6
+	polygyn						0	0.6
+	monog							0
 
-35 mis_bree [binary] : is data on mating system missing?
+35 mis_bree [binary] : is data on mating system missing? (if "1", the most frequent among the sister taxa provided)
 
 36 bpstart [mm-dd] : date of the beginning of breeding season {6}
 
@@ -101,20 +123,20 @@ This variables in this dataset are coded as:
 38 ndepen [numeric, (0, 1)] : nest dependency - to which extent the species relies on other species in terms of nesting site availability {6}
 
 39 nest [factor] : nest type {7, 6}:
-	(1) no,
-	(2) parasitism,
-	(3) scrape,
-	(4) crevice,
-	(5) burrow,
-	(6) cavity,
-	(7) platform,
-	(8) saucer,
-	(9) cup,
-	(10) spherical,
-	(11) chamber,
-	(12) oven,
-	(13) gourd,
-	(14) pendant.
+	(1) no : laying eggs on bare ground,
+	(2) parasitism : does not require building a nest, but is dependent on other species’ nests presence,
+	(3) scrape : a simple depression with a rim to prevent eggs from rolling,
+	(4) crevice : a crack in a cliff or between rocks,
+	(5) burrow : chamber in the end of a burrowed tunnel,
+	(6) cavity : excavated or natural cavity in a limb or trunk of a tree,
+	(7) platform : structure large enough for a bird to land,
+	(8) saucer : shallow cup with a small rim built of small branches and other materials,
+	(9) cup : hemispherical nest with a large rim,
+	(10) spherical : enclosed with a small entrance,
+	(11) chamber : spherical nest hidden within a substrate,
+	(12) oven : a specific chamber with an explicit roof and small entrance,
+	(13) gourd : a chamber made of clay and saliva, typically attached to a vertical surface,
+	(14) pendant : an elongate sack suspended from a branch.
 	Suggested distance matrix:
 		1	2	3	4	5	6	7	8	9	10	11	12	13	14
 	1	0	0.1	0.2	0.4	0.45	0.5	0.55	0.6	0.65	0.75	0.8	0.85	0.9	0.95
@@ -166,12 +188,19 @@ This variables in this dataset are coded as:
 
 64 klepto [numeric, (0, 1)] : kleptoparasitism {7}
 
-65 fc_categ [factor] : diet category
-	FruiNect : fruits and nectar
-	Invertebrate : invertebrates
-	Omnivore : omnivore
-	PlantSeed : plants and seeds
-	VertFishScav : vertebates, fish, or scavenging
+65 fc_categ [factor] : prevalent diet category
+	FruiNect : fruits and nectar,
+	Invertebrate : invertebrates,
+	Omnivore : omnivore,
+	PlantSeed : plants and seeds,
+	VertFishScav : vertebates, fish, or scavenging.
+	Suggested distance matrix:
+			FruiNect	Invertebrate	Omnivore	PlantSeed	VertFishScav
+	FruiNect	0		0.6		0.4		0.2		0.8
+	Invertebrate			0		0.5		0.7		0.2
+	Omnivore					0		0.5		0.4
+	PlantSeed							0		0.3
+	VertFishScav									0
 
 66-76 Foraging categories {1, 6, 7}
 
