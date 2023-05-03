@@ -2,8 +2,8 @@ trait6.csv - Functional traits database for North American birds
 Oleksii Dubovyk
 Department of Biological Sciences, Old Dominion University, Norfolk, VA, USA
 oadubovyk@gmail.com
-v1 - 20 Sep 2021 [initial dataset]
-v2 - 19 Apr 2023 [aligned with 2022 eBird taxonomy (columns 97-98)]
+v0 - 20 Sep 2021 [initial dataset]
+v1 - 19 Apr 2023 [aligned with 2022 eBird taxonomy (columns 97-98)]
 
 The columns in the dataset are coded as following:
 
