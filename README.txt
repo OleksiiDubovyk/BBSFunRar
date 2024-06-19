@@ -1,4 +1,4 @@
-trait6.csv - Functional traits database for North American birds
+trait6_v2.csv - Functional traits database for North American birds
 Oleksii Dubovyk
 Department of Biological Sciences, Old Dominion University, Norfolk, VA, USA
 oadubovyk@gmail.com
@@ -241,9 +241,12 @@ The columns in the dataset are coded as following:
 
 96 pelagic [binary] : is a pelagic taxa?
 
-97 ebd_id2022 [integer] : ID connector of species to eBird taxonomy (v2022) {3}
+97 code [character] : code ID in eBird taxonomy (v2019) {3}
 
-98 code [character] : code ID in eBird taxonomy (v2022) {3}
+98 ebd_id2022 [integer] : ID connector of species to eBird taxonomy (v2022) {3}
+
+99 ebd_id2023 [integer] : ID connector of species to eBird taxonomy (v2023) {3}
+
 
 References:
 1. Wilman, H., J. Belmaker, J. Simpson, C. de la Rosa, M.M. Rivadeneira, and W. Jetz. 2014. EltonTraits 1.0: Species-level foraging attributes of the world's birds and mammals. Ecology 95:2027. https://doi.org/10.1890/13-1917.1
